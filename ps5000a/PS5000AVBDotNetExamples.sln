@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PS5000ABlock", "PS5000aBlock\PS5000ABlock.vbproj", "{92C16F8D-89AB-4D24-82AA-CD578BF86C99}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PS5000ABlock", "PS5000ABlock\PS5000ABlock.vbproj", "{92C16F8D-89AB-4D24-82AA-CD578BF86C99}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PS5000aRapidBlock", "PS5000aRapidBlock\PS5000aRapidBlock.vbproj", "{5199368C-ED3D-4077-A51C-09926CF5B4C9}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PS5000ARapidBlock", "PS5000ARapidBlock\PS5000ARapidBlock.vbproj", "{5199368C-ED3D-4077-A51C-09926CF5B4C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
