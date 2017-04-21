@@ -1,9 +1,11 @@
 ﻿'===================================================================================================
+'
 '	Filename:			PS2000AImports.vb
 '
 '	Description: 
-'	    This file defines enumerations and structures from the ps2000aApi.h C header file.
+'	This file defines enumerations, functions and structures from the ps2000aApi.h C header file.
 '
+'   Copyright (C) 2017 Pico Technology Ltd. See LICENSE file for terms.
 '===================================================================================================
 Module PS2000AImports
 
