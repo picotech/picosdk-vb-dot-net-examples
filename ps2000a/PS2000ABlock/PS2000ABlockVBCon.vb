@@ -395,8 +395,8 @@ Module PS2000ABlockVBCon
 
         End If
 
-        ' Reset the deviceReady flag in case we wish to collect another block of data
-        deviceReady = True
+        ' Reset deviceReady flag if we need to collect another block of data
+        deviceReady = False
 
         ' Stop the device
         status = ps2000aStop(handle)
