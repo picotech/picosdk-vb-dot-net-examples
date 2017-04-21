@@ -1,43 +1,16 @@
-# .gitignore file for picosdk-c-examples repository
+# .gitignore file for picosdk-vb-dot-net-examples repository
 # Untracked files/folders to ignore.
 
-# Windows platforms
+# Folders
 
 **/.vs
-**/Debug
-**/Release
-**/x64
+**/bin
+**/obj
 
-**/*.sdf
-**/*.vcxproj.user
+# Files 
+**/*.suo
+**/*.vbproj.user
 **/*.opensdf
+**/*.exe
 **/*.dll
-**/*.lib
-
-# Linux/Mac OS X platforms
-
-**/aclocal.m4
-**/autom4te.cache
-**/compile
-**/config.guess
-**/*.in
-**/*.log
-**/*.status
-**/*.sub
-**/configure
-**/depcomp
-**/install-sh
-**/libtool
-**/ltmain.sh
-**/m4
-**/Makefile
-**/missing
-**/*.o
-**/stamp-h1
-**/*.so
-**/*.dylib
-
-# All platforms
-
 **/*.txt
-**/*.h
