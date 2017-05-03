@@ -1,3 +1,15 @@
+'========================================================================================
+'	
+'	Filename:			PinnedArray.vb
+'
+'	Description: 
+'		This Class defines an object to hold an array in memory when 
+'   	registering a data buffer with a PicoScope/PicoLog driver. 
+'
+'   Copyright (C) 2016 - 2017 Pico Technology Ltd. See LICENSE file for terms.
+'
+'========================================================================================
+
 Imports System.Runtime.InteropServices
 
 Namespace PinnedArray
