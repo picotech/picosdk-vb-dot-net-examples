@@ -4,7 +4,7 @@
 '	Description: 
 '	This file defines functions that can be used across Pico Technology VB .NET examples.
 '
-'   Copyright (C) 2016 Pico Technology Ltd. All rights reserved.
+'   Copyright (C) 2016 - 2017 Pico Technology Ltd. See LICENSE file for terms.
 '
 '========================================================================================
 

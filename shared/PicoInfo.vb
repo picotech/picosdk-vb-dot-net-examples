@@ -1,10 +1,11 @@
 ﻿'========================================================================================
+'	
 '	Filename:			PicoInfo.vb
 '
 '	Description: 
 '	This file defines the PICO_INFO values defined in the PicoStatus.h header file.
 '
-'   Copyright (C) 2016 - 2017 Pico Technology Ltd. All rights reserved.
+'   Copyright (C) 2016 - 2017 Pico Technology Ltd. See LICENSE file for terms.
 '
 '========================================================================================
 
