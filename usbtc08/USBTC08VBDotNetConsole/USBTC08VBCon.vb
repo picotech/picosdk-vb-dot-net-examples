@@ -29,7 +29,6 @@ Module USBTC08VBCon
         If (usbtc08Handle < 1) Then
 
             Console.WriteLine("USB TC-08 VB.NET Console application" & vbNewLine)
-            Console.WriteLine("USB TC-08 VB.NET Console application" & vbNewLine)
 
             Console.WriteLine("Opening connection to USB TC-08..." & vbNewLine)
 

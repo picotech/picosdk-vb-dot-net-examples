@@ -8,8 +8,8 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("USBTC08 VB .NET Example")> 
-<Assembly: AssemblyDescription("")> 
+<Assembly: AssemblyTitle("USBTC08VBDotNetConsole")>
+<Assembly: AssemblyDescription("USB TC-08 Thermocouple Data Logger (usbtc08) VB .NET Example")>
 <Assembly: AssemblyCompany("Pico Technology Ltd.")>
 <Assembly: AssemblyProduct("USB TC-08 Thermocouple Data Logger")>
 <Assembly: AssemblyCopyright("Copyright © 2014 - 2017 Pico Technology Ltd.")>
