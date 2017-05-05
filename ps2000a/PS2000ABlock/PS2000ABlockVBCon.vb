@@ -8,6 +8,14 @@
 '       The application shows how to connect to a device, display device information and collect 
 '       data in block mode.
 '
+'   Supported PicoScope models
+'
+'		PicoScope 2205 MSO & 2205A MSO
+'		PicoScope 2405A
+'		PicoScope 2206, 2206A, 2206B, 2206B MSO & 2406B
+'		PicoScope 2207, 2207A, 2207B, 2207B MSO & 2407B
+'		PicoScope 2208, 2208A, 2208B, 2208B MSO & 2408B
+'
 '   Copyright (C) 2017 Pico Technology Ltd. See LICENSE file for terms.
 '
 '===================================================================================================
@@ -32,7 +40,7 @@ Module PS2000ABlockVBCon
     Public isMSODevice As Boolean = False
 
     ' ******************************************************************************************************************************************************************
-    ' GetDeviceInfo - Reads and displays the scopes device information.
+    ' getDeviceInfo - Reads and displays the scopes device information.
     '
     ' Parameters: handle - the device handle
     ' *******************************************************************************************************************************************************************
@@ -211,7 +219,7 @@ Module PS2000ABlockVBCon
         Dim timebase As UInteger
         Dim numPreTriggerSamples As Integer
         Dim numPostTriggerSamples As Integer
-        Dim timeIntervalNs As Integer
+        Dim timeIntervalNs As Single
         Dim maxSamples As Integer
         Dim segmentIndex As UInteger
         Dim getTimebase2Status As UInteger
@@ -303,13 +311,11 @@ Module PS2000ABlockVBCon
         status = ps2000aRunBlock(handle, numPreTriggerSamples, numPostTriggerSamples, timebase, CShort(1), timeIndisposedMs, segmentIndex, ps2000aBlockCallback, IntPtr.Zero)
 
         If status <> PICO_OK Then
-            
+
             Call ErrorHandler(handle, status, "ps2000aRunBlock")
             Exit Sub
 
         End If
-
-        Dim ready As Short = 0
 
         ' Wait for the device to become ready (i.e. complete data collection)
         While deviceReady = False AndAlso Console.KeyAvailable = False
@@ -320,12 +326,12 @@ Module PS2000ABlockVBCon
 
         If Console.KeyAvailable Then
 
-                ' clear the key
-                Console.ReadKey(True)
+            ' Clear the key
+            Console.ReadKey(True)
 
-            End If
+        End If
 
-            Console.WriteLine()
+        Console.WriteLine()
 
         If deviceReady = True Then
 
