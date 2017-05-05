@@ -229,8 +229,8 @@ Module PS3000AImports
     ' Functions relevant to all Data Capture Modes
     ' --------------------------------------------
 
-    Declare Function ps3000aSetDataBuffer Lib "ps3000a.dll" (ByVal handle As Short, ByVal channel As UInteger, ByRef buffer As Short, ByVal length As Integer, ByVal segmentIndex As UInteger, ByVal downSampleRatioMode As UInteger) As UInteger
-    Declare Function ps3000aGetValues Lib "ps3000a.dll" (ByVal handle As Short, ByVal startIndex As UInteger, ByRef numSamples As UInteger, ByVal downSampleRatio As UInteger, ByVal downSampleRatioMode As UInteger, ByVal segmentIndex As UInteger, ByRef overflow As Short) As UInteger
+    Declare Function ps3000aSetDataBuffer Lib "ps3000a.dll" (ByVal handle As Short, ByVal channel As UInteger, ByRef buffer As Short, ByVal length As Integer, ByVal segmentIndex As UInteger, ByVal downSampleRatioMode As RatioMode) As UInteger
+    Declare Function ps3000aGetValues Lib "ps3000a.dll" (ByVal handle As Short, ByVal startIndex As UInteger, ByRef numSamples As UInteger, ByVal downSampleRatio As UInteger, ByVal downSampleRatioMode As RatioMode, ByVal segmentIndex As UInteger, ByRef overflow As Short) As UInteger
     Declare Function ps3000aStop Lib "ps3000a.dll" (ByVal handle As Short) As UInteger
 
     ' Signal Generator Functions
