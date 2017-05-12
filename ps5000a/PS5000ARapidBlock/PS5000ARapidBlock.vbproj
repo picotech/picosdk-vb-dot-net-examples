@@ -108,7 +108,6 @@
     <Compile Include="..\PS5000AImports.vb">
       <Link>PS5000AImports.vb</Link>
     </Compile>
-    <Compile Include="PS5000aRapidBlockVBCon.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -124,6 +123,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="PS5000ARapidBlockVBCon.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
