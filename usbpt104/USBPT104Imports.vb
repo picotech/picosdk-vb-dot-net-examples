@@ -77,7 +77,7 @@ Module USBPT104Imports
     Declare Function UsbPt104SetMains Lib "usbpt104.dll" (ByVal handle As Short, ByVal sixty_hertz As UShort) As UInteger
     Declare Function UsbPt104GetValue Lib "usbpt104.dll" (ByVal handle As Short, ByVal channel As UsbPt104Channels, ByRef value As Integer, ByVal filtered As Short) As UInteger
 
-    Declare Function UsbPt104IpDetails Lib "usbpt104.dll" (ByVal handle As Short, ByRef enabled As Short, ByVal ipAddress As String, ByRef length As UShort, ByVal listeringPort As UShort,
+    Declare Function UsbPt104IpDetails Lib "usbpt104.dll" (ByVal handle As Short, ByRef enabled As Short, ByVal ipAddress As String, ByRef length As UShort, ByRef listeningPort As UShort,
                                                            ByVal type As IpDetailsType) As UInteger
 
     Declare Sub Sleep Lib "kernel32.dll" (ByVal timeMs As Integer)
