@@ -1,6 +1,6 @@
 ﻿'========================================================================================
 '	
-'   Filename: USBPt104VBCon.vb
+'   Filename: USBPT104VBCon.vb
 '
 '   Description:
 '	This file demonstrates how to use VB .NET with the USB PT-104 data logger.
