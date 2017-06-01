@@ -119,7 +119,7 @@ Partial Class PS2000BlockVBGui
         'numSamplesNumericUpDown
         '
         Me.numSamplesNumericUpDown.Location = New System.Drawing.Point(329, 98)
-        Me.numSamplesNumericUpDown.Maximum = New Decimal(New Integer() {8192, 0, 0, 0})
+        Me.numSamplesNumericUpDown.Maximum = New Decimal(New Integer() {8064, 0, 0, 0})
         Me.numSamplesNumericUpDown.Name = "numSamplesNumericUpDown"
         Me.numSamplesNumericUpDown.Size = New System.Drawing.Size(66, 20)
         Me.numSamplesNumericUpDown.TabIndex = 8
@@ -181,7 +181,7 @@ Partial Class PS2000BlockVBGui
         Me.dataLabel.TabIndex = 14
         Me.dataLabel.Text = "Data:"
         '
-        'PS2000BlockGui
+        'PS2000BlockVBGui
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -201,7 +201,7 @@ Partial Class PS2000BlockVBGui
         Me.Controls.Add(Me.unitInfoTextBox)
         Me.Controls.Add(Me.closeButton)
         Me.Controls.Add(Me.openButton)
-        Me.Name = "PS2000BlockGui"
+        Me.Name = "PS2000BlockVBGui"
         Me.Text = "PicoScope 2000 Series Block GUI Capture Example"
         CType(Me.timebaseNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.numSamplesNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
