@@ -66,8 +66,8 @@ Module PS2000Block
 
     Sub Main()
 
-        Console.WriteLine("PicoScope 2000 Series (ps2000) VB .NET Block Capture Example Program" _
-                          & vbNewLine & "=============================================" & vbNewLine)
+        Console.WriteLine("PicoScope 2000 Series (ps2000) VB .NET Block Capture Example Program" & vbNewLine _
+                          & "====================================================================" & vbNewLine)
 
         ' Device Connection and Setup
         ' ===========================
