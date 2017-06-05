@@ -86,11 +86,11 @@ Public Class PS4000ASigGen
     Private Sub Update_button_Click(sender As Object, e As EventArgs) Handles Update_button.Click
 
         Dim sweeptype As SweepType
-        Dim operation As ExtraOperations = ExtraOperations.ps4000A_ES_OFF
+        Dim operation As ExtraOperations = ExtraOperations.PS4000A_ES_OFF
         Dim shots As UInteger = 0
         Dim sweeps As UInteger = 0
-        Dim triggertype As SigGenTrigType = SigGenTrigType.ps4000A_SIGGEN_RISING
-        Dim triggersource As SigGenTrigSource = SigGenTrigSource.ps4000A_SIGGEN_NONE
+        Dim triggertype As SigGenTrigType = SigGenTrigType.PS4000A_SIGGEN_RISING
+        Dim triggersource As SigGenTrigSource = SigGenTrigSource.PS4000A_SIGGEN_NONE
         Dim extinthreshold As Short = 0
         Dim startfreq As Double
         Dim stopfreq As Double
@@ -134,7 +134,7 @@ Public Class PS4000ASigGen
             stopfreq = startfreq
             increment = 0
             dwelltime = 0
-            sweeptype = sweeptype.ps4000A_UP
+            sweeptype = sweeptype.PS4000A_UP
         End If
 
 
@@ -146,7 +146,7 @@ Public Class PS4000ASigGen
             Dim startdelta As UInteger
             Dim stopdelta As UInteger
             Dim deltaphase_increment As UInteger
-            Dim index As IndexMode = IndexMode.ps4000A_SINGLE
+            Dim index As IndexMode = IndexMode.PS4000A_SINGLE
 
 
             'making sure file exists
