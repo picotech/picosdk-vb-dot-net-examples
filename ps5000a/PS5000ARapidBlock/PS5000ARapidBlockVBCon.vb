@@ -356,7 +356,7 @@ Module PS5000ARapidBlockVBCon
                         ch = "A" + ChrW(channel)
 
 
-                        Console.WriteLine("PS5000AImports.ps5000aSetDataBuffer Channel {0} segment {1} status = {2} (0x{3})", ChrW(Asc("A") + channel), segment, status, status.ToString("X"))
+                        Console.WriteLine("ps5000aSetDataBuffer Channel {0} segment {1} status = {2} (0x{3})", ChrW(Asc("A") + channel), segment, status, status.ToString("X"))
 
                     End If
                 Else
@@ -366,15 +366,17 @@ Module PS5000ARapidBlockVBCon
 
                     If status <> PicoStatus.PICO_OK Then
 
-                        Console.WriteLine("PS5000AImports.ps5000aSetDataBuffer Channel {0} segment {1} status = {2} (0x{3})", ChrW(Asc("A") + channel), segment, status, status.ToString("X"))
+                        Console.WriteLine("ps5000aSetDataBuffer Channel {0} segment {1} status = {2} (0x{3})", ChrW(Asc("A") + channel), segment, status, status.ToString("X"))
 
                     End If
                 End If
             Next
         Next
 
+        ' Setup built-in signal generator
+        ' ------------------------------- 
 
-        ' In this example the signal generator output will be used (1 kHz, 4 Vpp sine wave)
+        ' In this example the signal generator output will be used to provide an input signal (1 kHz, 4 Vpp sine wave)
 
         Dim offset As Integer = 0
         Dim peakToPeak As UInteger = 4000000
