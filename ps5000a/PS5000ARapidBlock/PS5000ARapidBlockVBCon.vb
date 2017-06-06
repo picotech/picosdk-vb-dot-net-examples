@@ -8,12 +8,13 @@
 '   It shows how to connect to a device, display device information and collect data in 
 '   rapid block mode.
 '
-'   Copyright (C) 2016 - 2017 Pico Technology Ltd. See LICENSE file for terms.
+'   Copyright © 2016-2017 Pico Technology Ltd. See LICENSE file for terms.
 '
 '===================================================================================================
 
 Imports System.IO
 Imports System.Globalization
+Imports System.Threading
 
 Module PS5000ARapidBlockVBCon
 
@@ -40,13 +41,12 @@ Module PS5000ARapidBlockVBCon
     Dim channelCount As Short
     Dim numAvailableChannels As Integer ' Indicate if 2 channels or 4 channels (power supply connected for PicoScope 544XA/B devices)
     Dim totalSamples As UInteger
-    Dim mvConvert = True        ' Flag to show if values get converted to mV or stay as ADC counts
 
     Public deviceReady As Boolean
 
 
     ' ******************************************************************************************************************************************************************
-    ' GetDeviceInfo - Reads and displays the scopes device information. Fills out the UnitModel Structure depending upon device type.
+    ' GetDeviceInfo - Reads and displays the scopes device information.
     '
     ' Parameters: handle - the device handle
     ' *******************************************************************************************************************************************************************
@@ -132,13 +132,13 @@ Module PS5000ARapidBlockVBCon
         ElseIf status = PicoStatus.PICO_NOT_FOUND Then
 
             Console.WriteLine("Device not found - exiting application." & vbNewLine)
-            Sleep(5000)
+            Thread.Sleep(5000)
             Exit Sub
 
         Else
 
             Console.WriteLine("Device not opened (ps5000aOpenUnit returned status code {0} (0x{1}))", status, status.ToString("X") & vbNewLine)
-            Sleep(5000)
+            Thread.Sleep(5000)
             Exit Sub
 
         End If
@@ -298,7 +298,7 @@ Module PS5000ARapidBlockVBCon
 
         Loop
 
-        Console.WriteLine("Timebase: {0} Sample interval: {1}ns, Max Samples: {2}", timebase, timeIntervalNs, maxSamples, vbNewLine)
+        Console.WriteLine("Timebase: {0} Sample interval: {1} ns, Max Samples: {2}", timebase, timeIntervalNs, maxSamples, vbNewLine)
         Console.WriteLine()
 
         ' Setup trigger
@@ -313,11 +313,11 @@ Module PS5000ARapidBlockVBCon
         ' Convert the threshold from millivolts to an ADC count
         threshold = PicoFunctions.mvToAdc(500, PS5000AImports.VoltageRange.PS5000A_5V, maxADCValue)
 
-        Console.WriteLine("Trigger threshold: {0}mV ({1} ADC Counts)", 500, threshold, vbNewLine)
+        Console.WriteLine("Trigger threshold: {0} mV ({1} ADC counts)", 500, threshold, vbNewLine)
         Console.WriteLine()
 
         delay = 0
-        autoTriggerMs = 0 ' Auto-trigger after 1 second if trigger event has not occurred
+        autoTriggerMs = 1000 ' Auto-trigger after 1 second if trigger event has not occurred
 
         status = ps5000aSetSimpleTrigger(handle, CShort(1), PS5000AImports.Channel.PS5000A_CHANNEL_A, threshold, PS5000AImports.ThresholdDirection.PS5000A_RISING, delay, autoTriggerMs)
 
@@ -374,7 +374,7 @@ Module PS5000ARapidBlockVBCon
         Next
 
 
-        ' In this example the signal generator output will be used
+        ' In this example the signal generator output will be used (1 kHz, 4 Vpp sine wave)
 
         Dim offset As Integer = 0
         Dim peakToPeak As UInteger = 4000000
@@ -396,7 +396,7 @@ Module PS5000ARapidBlockVBCon
 
         End If
 
-        Console.WriteLine("Please connect the signal generator output to Channel A and press Enter to start data collection.")
+        Console.WriteLine("Please connect the signal generator output to Channel A and press <Enter> to start data collection.")
 
         Console.ReadKey()
         Console.WriteLine()
@@ -428,7 +428,7 @@ Module PS5000ARapidBlockVBCon
 
         While ((deviceReady = False) And (keyPress = False))
 
-            Sleep(10)
+            Thread.Sleep(10)
 
             If Console.KeyAvailable Then                ' Check if the user has hit a key to indicate they want to stop waiting for data collection
 
@@ -500,7 +500,7 @@ Module PS5000ARapidBlockVBCon
                 If chSettings(channel).enabled Then
 
                     channelName = ChrW(Asc("A") + channel)
-                    fileNameSb.Append("PS5000a_Rapid_Block_Ch").Append(channelName)
+                    fileNameSb.Append("ps5000a_rapid_block_ch").Append(channelName)
                     fileStub = fileNameSb.ToString().Trim(Convert.ToChar(0))
                     fileName = String.Concat(fileStub, ".txt")
 
@@ -584,7 +584,7 @@ Module PS5000ARapidBlockVBCon
 
         Console.WriteLine("Exiting application..." & vbNewLine)
 
-        Sleep(5000)
+        Thread.Sleep(5000)
 
     End Sub
 

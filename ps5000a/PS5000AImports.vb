@@ -274,8 +274,6 @@ Module PS5000AImports
     ' Other Functions
     ' ---------------
 
-    Declare Sub Sleep Lib "kernel32.dll" (ByVal milliseconds As Integer)
-
 
     ' Delegate declarations
     ' =====================
