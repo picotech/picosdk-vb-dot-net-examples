@@ -262,7 +262,7 @@ Module PS2000ABlockVBCon
         ' Convert the threshold from millivolts to an ADC count
         threshold = PicoFunctions.mvToAdc(500, PS2000AImports.VoltageRange.PS2000A_5V, maxADCValue)
 
-        Console.WriteLine("Trigger threshold: {0} mV ({1} ADC Counts)", 500, threshold, vbNewLine)
+        Console.WriteLine("Trigger threshold: {0} mV ({1} ADC counts)", 500, threshold, vbNewLine)
 
         delay = 0
         autoTriggerMs = 2000 ' Auto-trigger after 2 seconds if trigger event has not occurred
@@ -279,7 +279,7 @@ Module PS2000ABlockVBCon
         ' Signal Generator
         ' ================
 
-        ' Use in-built function generator in order to provide a test signal (1 KHz, 2 Vpp sine wave)
+        ' Use in-built function generator in order to provide a test signal (1 kHz, 2 Vpp sine wave)
 
         Console.WriteLine("Connect the AWG output to Channel A and press <Enter> to continue.")
 
