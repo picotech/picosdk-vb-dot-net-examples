@@ -21,6 +21,7 @@
 '===================================================================================================
 
 Imports System.IO
+Imports System.Threading
 
 Module PS2000ABlockVBCon
 
@@ -113,13 +114,13 @@ Module PS2000ABlockVBCon
         ElseIf status = PicoStatus.PICO_NOT_FOUND Then
 
             Console.WriteLine("Device not found." & vbNewLine)
-            Sleep(2000)
+            Thread.Sleep(2000)
             Exit Sub
 
         Else
 
             Console.WriteLine("Device not opened." & vbNewLine)
-            Sleep(2000)
+            Thread.Sleep(2000)
             Exit Sub
 
         End If
@@ -414,7 +415,7 @@ Module PS2000ABlockVBCon
 
         Console.WriteLine("Exiting application..." & vbNewLine)
 
-        Sleep(5000)
+        Thread.Sleep(5000)
 
     End Sub
 
@@ -435,7 +436,7 @@ Module PS2000ABlockVBCon
         Call ps2000aCloseUnit(handle)
         Console.WriteLine("Exiting application...")
 
-        Sleep(5000)
+        Thread.Sleep(5000)
     End Sub
 
 End Module

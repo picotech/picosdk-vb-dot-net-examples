@@ -260,6 +260,5 @@ Module PS2000AImports
     ' Other Functions
     ' ===============
 
-    Declare Sub Sleep Lib "kernel32.dll" (ByVal millseconds As Integer)
 
 End Module
