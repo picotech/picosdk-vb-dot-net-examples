@@ -66,7 +66,7 @@ Module PS4000AImports
         PS4000A_BW_1MHZ
     End Enum
 
-    Enum Coupling
+    Enum CouplingMode
         PS4000A_AC
         PS4000A_DC
     End Enum
@@ -274,11 +274,58 @@ Module PS4000AImports
     ' Device Connection and Setup Functions
     ' -------------------------------------
 
-    Declare Function ps4000aGetUnitInfo Lib "ps4000a.dll" (ByVal handle As Short, ByVal str As String, ByVal lth As Short, ByRef requiredSize As Short, ByVal info As Short) As UInteger
     Declare Function ps4000aOpenUnit Lib "ps4000a.dll" (ByRef handle As Short, ByVal serial As String) As UInteger
+    Declare Function ps4000aOpenUnitWithResolution Lib "ps4000a.dll" (ByRef handle As Short, ByVal serial As String, ByVal resolution As DeviceResolution) As UInteger
     Declare Function ps4000aCloseUnit Lib "ps4000a.dll" (ByVal handle As Short) As UInteger
-    Declare Function ps4000aChangePowerSource Lib "ps4000a.dll" (ByVal handle As Short, ByVal source As Short) As UInteger
+    Declare Function ps4000aGetUnitInfo Lib "ps4000a.dll" (ByVal handle As Short, ByVal str As String, ByVal lth As Short, ByRef requiredSize As Short, ByVal info As UInteger) As UInteger
+    Declare Function ps4000aPingUnit Lib "ps4000a.dll" (ByVal handle As Short) As UInteger
 
+    Declare Function ps4000aSetChannel Lib "ps4000a.dll" (ByVal handle As Short, ByVal channel As Channel, ByVal enabled As Short, ByVal dc As CouplingMode, ByVal range As PicoConnectProbeRange,
+                                                          ByVal analogOffset As Single) As UInteger
+
+    Declare Function ps4000aChangePowerSource Lib "ps4000a.dll" (ByVal handle As Short, ByVal powerstate As UInteger) As UInteger
+    Declare Function ps4000aCurrentPowerSource Lib "ps4000a.dll" (ByVal handle As Short) As UInteger
+
+    Declare Function ps4000aGetDeviceResolution Lib "ps4000a.dll" (ByVal handle As Short, ByRef resolution As DeviceResolution) As UInteger
+    Declare Function ps4000aSetDeviceResolution Lib "ps4000a.dll" (ByVal handle As Short, ByVal resolution As DeviceResolution) As UInteger
+
+    Declare Function ps4000aMaximumValue Lib "ps4000a.dll" (ByVal handle As Short, ByRef value As Short) As UInteger
+    Declare Function ps4000aMinimumValue Lib "ps4000a.dll" (ByVal handle As Short, ByRef value As Short) As UInteger
+
+    ' Trigger Functions
+    ' -----------------
+
+    Declare Function ps4000aSetSimpleTrigger Lib "ps4000a.dll" (ByVal handle As Short, ByVal enable As Short, ByVal channel As Channel, ByVal threshold As Short, ByVal direction As ThresholdDirection,
+                                                                    ByVal delay As UInteger, ByVal autoTriggerMs As Short) As UInteger
+
+    ' Functions relevant to all Data Capture Modes
+    ' --------------------------------------------
+
+    Declare Function ps4000aSetDataBuffer Lib "ps4000a.dll" (ByVal handle As Short, ByVal channel As Channel, ByRef buffer As Short, ByVal length As Integer, ByVal segmentIndex As UInteger,
+                                                                ByVal downSampleRatioMode As RatioMode) As UInteger
+    Declare Function ps4000aSetDataBuffers Lib "ps4000a.dll" (ByVal handle As Short, ByVal channel As Channel, ByRef bufferMax As Short, ByRef bufferMin As Short, ByVal length As Integer,
+                                                                ByVal segmentIndex As UInteger, ByVal downSampleRatioMode As RatioMode) As UInteger
+    Declare Function ps4000aStop Lib "ps4000a.dll" (ByVal handle As Short) As UInteger
+
+    ' Block functions
+    ' ---------------
+
+    Declare Function ps4000aGetValues Lib "ps4000a.dll" (ByVal handle As Short, ByVal startIndex As UInteger, ByRef numSamples As UInteger, ByVal downSampleRatio As UInteger,
+                                                            ByVal downSampleRatioMode As RatioMode, ByVal segmentIndex As UInteger, ByRef overflow As Short) As UInteger
+    Declare Function ps4000aGetTimebase2 Lib "ps4000a.dll" (ByVal handle As Short, ByVal timebase As UInteger, ByVal noSamples As Integer, ByRef timeIntervalNs As Single,
+                                                                ByRef maxSamples As Integer, ByVal segmentIndex As UInteger) As UInteger
+    Declare Function ps4000aRunBlock Lib "ps4000a.dll" (ByVal handle As Short, ByVal noOfPreTriggerSamples As Integer, ByVal noOfPostTriggerSamples As Integer, ByVal timebase As UInteger,
+                                                            ByRef timeIndisposedMs As Integer, ByVal segmentIndex As UInteger, ByVal lpps4000aBlockReady As ps4000aBlockReady, ByVal pParam As IntPtr) As UInteger
+
+    ' Rapid Block functions
+    ' ---------------------
+
+    Declare Function ps4000aGetMaxSegments Lib "ps4000a.dll" (ByVal handle As Short, ByRef maxSegments As UInteger) As UInteger
+    Declare Function ps4000aGetNoOfCaptures Lib "ps4000a.dll" (ByVal handle As Short, ByRef nCaptures As UInteger) As UInteger
+    Declare Function ps4000aGetValuesBulk Lib "ps4000a.dll" (ByVal handle As Short, ByRef numSamples As UInteger, ByVal fromSegmentIndex As UInteger, ByVal toSegmentIndex As UInteger,
+                                                                ByVal downSampleRatio As UInteger, ByVal downSampleRatioMode As RatioMode, ByRef overflow As Short) As UInteger
+    Declare Function ps4000aMemorySegments Lib "ps4000a.dll" (ByVal handle As Short, ByVal nSegments As UInteger, ByRef nMaxSamples As Integer) As UInteger
+    Declare Function ps4000aSetNoOfCaptures Lib "ps4000a.dll" (ByVal handle As Short, ByVal nCaptures As UInteger) As UInteger
 
     ' Signal Generator Functions
     ' --------------------------
@@ -294,5 +341,12 @@ Module PS4000AImports
                                                                   ByVal shots As UInteger, ByVal sweeps As UInteger, ByRef triggerType As SigGenTrigType, ByVal triggerSource As SigGenTrigSource,
                                                                   ByVal extInThreshold As Short) As UInteger
 
+    ' Delegate declarations
+    ' =====================
+
+    ' Block mode
+    ' ----------
+
+    Public Delegate Sub ps4000aBlockReady(handle As Short, status As UInteger, pVoid As IntPtr)
 
 End Module
