@@ -1,6 +1,6 @@
 # picosdk-vb-dot-net-examples
 
-This is a collection of Visual Basic .NET (VB .NET) examples for PicoScope oscilloscope and PicoLog data logger products.
+picosdk-vb-dot-net-examples is a set of Visual Basic .NET (VB .NET) examples for PicoScope oscilloscope and PicoLog data logger products.
 
 Examples are provided as Microsoft Visual Studio Community 2017 solutions and are grouped by driver name.
 
