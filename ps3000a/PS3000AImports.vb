@@ -5,7 +5,7 @@
 '	Description: 
 '	    This file defines enumerations, functions and structures from the ps3000aApi.h C header file.
 '
-'   Copyright (C) 2014 - 2017 Pico Technology Ltd. See LICENSE file for terms.
+'   Copyright © 2014-2017 Pico Technology Ltd. See LICENSE file for terms.
 '
 '====================================================================================================
 
@@ -250,7 +250,5 @@ Module PS3000AImports
 
     ' Other Functions
     ' ===============
-
-    Declare Sub Sleep Lib "kernel32.dll" (ByVal millseconds As Integer)
 
 End Module

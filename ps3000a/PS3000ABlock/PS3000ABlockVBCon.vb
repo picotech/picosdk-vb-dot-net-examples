@@ -21,11 +21,12 @@
 '		PicoScope 3405A/B/D/D MSO
 '		PicoScope 3406A/B/D/D MSO
 '
-'   Copyright (C) 2014 - 2017 Pico Technology Ltd. See LICENSE file for terms.
+'   Copyright © 2014-2017 Pico Technology Ltd. See LICENSE file for terms.
 '
 '===================================================================================================
 
 Imports System.IO
+Imports System.Threading
 
 
 Module PS3000ABlockVBCon
@@ -117,7 +118,7 @@ Module PS3000ABlockVBCon
         ElseIf status = PicoStatus.PICO_NOT_FOUND Then
 
             Console.WriteLine("Device not found." & vbNewLine)
-            Sleep(2000)
+            Thread.Sleep(2000)
             Exit Sub
 
         ElseIf (status = PicoStatus.PICO_POWER_SUPPLY_NOT_CONNECTED Or
@@ -131,7 +132,7 @@ Module PS3000ABlockVBCon
         Else
 
             Console.WriteLine("Device not opened." & vbNewLine)
-            Sleep(2000)
+            Thread.Sleep(2000)
             Exit Sub
 
         End If
@@ -431,7 +432,7 @@ Module PS3000ABlockVBCon
 
         Console.WriteLine("Exiting application..." & vbNewLine)
 
-        Sleep(5000)
+        Thread.Sleep(5000)
 
     End Sub
 
@@ -453,7 +454,8 @@ Module PS3000ABlockVBCon
         Call ps3000aCloseUnit(handle)
         Console.WriteLine("Exiting application...")
 
-        Sleep(5000)
+        Thread.Sleep(5000)
+
     End Sub
 
 End Module
