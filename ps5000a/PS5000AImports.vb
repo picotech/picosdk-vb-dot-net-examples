@@ -232,7 +232,7 @@ Module PS5000AImports
 
     Declare Function ps5000aGetValues Lib "ps5000a.dll" (ByVal handle As Short, ByVal startIndex As UInteger, ByRef numSamples As UInteger, ByVal downSampleRatio As UInteger, ByVal downSampleRatioMode As RatioMode, ByVal segmentIndex As UInteger, ByRef overflow As Short) As UInteger
     Declare Function ps5000aGetTimebase2 Lib "ps5000a.dll" (ByVal handle As Short, ByVal timebase As UInteger, ByVal noSamples As Integer, ByRef timeIntervalNs As Single, ByRef maxSamples As Integer, ByVal segment As UInteger) As UInteger
-    Declare Function ps5000aRunBlock Lib "ps5000a.dll" (ByVal handle As Short, noOfPreTriggerSamples As Integer, noOfPostTriggerSamples As Integer, timebase As UInteger, ByRef timeIndisposedMs As Integer, ByVal segmentIndex As UInteger, ByVal lpps5000aBlockReady As ps5000aBlockReady, pParam As IntPtr) As UInteger
+    Declare Function ps5000aRunBlock Lib "ps5000a.dll" (ByVal handle As Short, ByVal noOfPreTriggerSamples As Integer, ByVal noOfPostTriggerSamples As Integer, timebase As UInteger, ByRef timeIndisposedMs As Integer, ByVal segmentIndex As UInteger, ByVal lpps5000aBlockReady As ps5000aBlockReady, pParam As IntPtr) As UInteger
 
 
     ' Rapid Block functions
