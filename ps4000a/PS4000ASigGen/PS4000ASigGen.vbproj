@@ -116,6 +116,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\shared\PicoConnectProbes.vb">
+      <Link>PicoConnectProbes.vb</Link>
+    </Compile>
     <Compile Include="..\PS4000AImports.vb">
       <Link>PS4000AImports.vb</Link>
     </Compile>
