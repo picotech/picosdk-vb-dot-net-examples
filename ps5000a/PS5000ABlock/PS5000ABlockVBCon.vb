@@ -7,15 +7,14 @@
 '   The application shows how to connect to a device, display device information and collect data in 
 '   block mode.
 '
-'   Copyright (C) 2016 - 2017 Pico Technology Ltd. See LICENSE file for terms.
+'   Copyright © 2016-2017 Pico Technology Ltd. See LICENSE file for terms.
 '
 '===================================================================================================
 
 Imports System.IO
+Imports System.Threading
 
 Module PS5000ABlockVBCon
-
-    Dim mvConvert = True        ' Flag to show if values get converted to mV or stay as ADC counts
 
     ' Delegate
 
@@ -33,7 +32,7 @@ Module PS5000ABlockVBCon
     Public deviceReady As Boolean
 
     ' ******************************************************************************************************************************************************************
-    ' GetDeviceInfo - Reads and displays the scopes device information. Fills out the UnitModel Structure depending upon device type.
+    ' GetDeviceInfo - Reads and displays the scopes device information.
     '
     ' Parameters: handle - the device handle
     ' *******************************************************************************************************************************************************************
@@ -138,10 +137,24 @@ Module PS5000ABlockVBCon
         ' Setup Channel A - 5V range, DC coupling, 0 Analogue offset
         status = ps5000aSetChannel(handle, PS5000AImports.Channel.PS5000A_CHANNEL_A, CShort(1), PS5000AImports.CouplingMode.PS5000A_DC, PS5000AImports.VoltageRange.PS5000A_5V, 0.0)
 
+        If status <> PicoStatus.PICO_OK Then
+
+            Console.WriteLine("Error:- ps5000aSetChannel on channel A returned status code {0} (0x{1})", status, status.ToString("X"))
+            Call ExitSub()
+
+        End If
+
         ' Turn off other channels
 
         ' Turn off Channel B
         status = ps5000aSetChannel(handle, PS5000AImports.Channel.PS5000A_CHANNEL_B, CShort(0), PS5000AImports.CouplingMode.PS5000A_DC, PS5000AImports.VoltageRange.PS5000A_5V, 0.0)
+
+        If status <> PicoStatus.PICO_OK Then
+
+            Console.WriteLine("Error:- ps5000aSetChannel on channel B returned status code {0} (0x{1})", status, status.ToString("X"))
+            Call ExitSub()
+
+        End If
 
         ' Only disable Channels C and D on a 4-channel device if the power supply is connected
         Dim powerStatus As UInteger
@@ -150,7 +163,22 @@ Module PS5000ABlockVBCon
         If channelCount = 4 And powerStatus = PicoStatus.PICO_POWER_SUPPLY_CONNECTED Then
 
             status = ps5000aSetChannel(handle, PS5000AImports.Channel.PS5000A_CHANNEL_C, CShort(0), PS5000AImports.CouplingMode.PS5000A_DC, PS5000AImports.VoltageRange.PS5000A_5V, 0.0)
+
+            If status <> PicoStatus.PICO_OK Then
+
+                Console.WriteLine("Error:- ps5000aSetChannel on channel C returned status code {0} (0x{1})", status, status.ToString("X"))
+                Call ExitSub()
+
+            End If
+
             status = ps5000aSetChannel(handle, PS5000AImports.Channel.PS5000A_CHANNEL_D, CShort(0), PS5000AImports.CouplingMode.PS5000A_DC, PS5000AImports.VoltageRange.PS5000A_5V, 0.0)
+
+            If status <> PicoStatus.PICO_OK Then
+
+                Console.WriteLine("Error:- ps5000aSetChannel on channel D returned status code {0} (0x{1})", status, status.ToString("X"))
+                Call ExitSub()
+
+            End If
 
         End If
 
@@ -205,13 +233,50 @@ Module PS5000ABlockVBCon
         ' Convert the threshold from millivolts to an ADC count
         threshold = PicoFunctions.mvToAdc(500, PS5000AImports.VoltageRange.PS5000A_5V, maxADCValue)
 
-        Console.WriteLine("Trigger threshold: {0}mV ({1} ADC Counts)", 500, threshold, vbNewLine)
+        Console.WriteLine("Trigger threshold: {0}mV ({1} ADC counts)", 500, threshold, vbNewLine)
 
         delay = 0
         autoTriggerMs = 1000 ' Auto-trigger after 1 second if trigger event has not occurred
 
         status = ps5000aSetSimpleTrigger(handle, CShort(1), PS5000AImports.Channel.PS5000A_CHANNEL_A, threshold, PS5000AImports.ThresholdDirection.PS5000A_RISING, delay, autoTriggerMs)
 
+        If status <> PicoStatus.PICO_OK Then
+
+            Console.WriteLine("Error:- ps5000aSetSimpleTrigger returned status code {0} (0x{1})", status, status.ToString("X"))
+            Call ExitSub()
+
+        End If
+
+        ' Setup built-in signal generator
+        ' ------------------------------- 
+
+        ' In this example the signal generator output will be used to provide an input signal (1 kHz, 4 Vpp sine wave)
+
+        Dim offset As Integer = 0
+        Dim peakToPeak As UInteger = 4000000
+        Dim frequency As Double = 1000.0
+        Dim increment As Double = 0.0
+        Dim dwellTime As Double = 0.0
+        Dim shots As UInteger = 0
+        Dim sweeps As UInteger = 0
+        Dim extInThreshold As Short = 0
+
+        status = PS5000AImports.ps5000aSetSigGenBuiltInV2(handle, offset, peakToPeak, PS5000AImports.WaveType.PS5000A_SINE, frequency, frequency, increment, dwellTime, PS5000AImports.SweepType.PS5000A_UP,
+                                                          PS5000AImports.ExtraOperations.PS5000A_ES_OFF, shots, sweeps, PS5000AImports.SigGenTrigType.PS5000A_SIGGEN_RISING,
+                                                          PS5000AImports.SigGenTrigSource.PS5000A_SIGGEN_NONE, extInThreshold)
+
+        If status <> PicoStatus.PICO_OK Then
+
+            Console.WriteLine("Error:- ps5000aSetSigGenBuiltInV2 returned status code {0} (0x{1})", status, status.ToString("X"))
+            Call ExitSub()
+
+        End If
+
+        Console.WriteLine("Please connect the signal generator output to Channel A and press <Enter> to start data collection.")
+
+        Console.ReadKey()
+        Console.WriteLine()
+        Console.WriteLine("Starting data capture...")
 
         ' Data Capture
         ' ============
@@ -227,9 +292,16 @@ Module PS5000ABlockVBCon
 
         status = ps5000aRunBlock(handle, numPreTriggerSamples, numPostTriggerSamples, timebase, timeIndisposedMs, segmentIndex, ps5000aBlockCallback, IntPtr.Zero)
 
+        If status <> PicoStatus.PICO_OK Then
+
+            Console.WriteLine("Error:- ps5000aRunBlock returned status code {0} (0x{1})", status, status.ToString("X"))
+            Call ExitSub()
+
+        End If
+
         While deviceReady = False
 
-            Sleep(10)
+            Thread.Sleep(10)
 
         End While
 
@@ -240,6 +312,13 @@ Module PS5000ABlockVBCon
         ReDim valuesChA(totalSamples - 1)
 
         status = ps5000aSetDataBuffer(handle, PS5000AImports.Channel.PS5000A_CHANNEL_A, valuesChA(0), CInt(totalSamples), segmentIndex, PS5000AImports.RatioMode.PS5000A_RATIO_MODE_NONE)
+
+        If status <> PicoStatus.PICO_OK Then
+
+            Console.WriteLine("Error:- ps5000aSetDataBuffer returned status code {0} (0x{1})", status, status.ToString("X"))
+            Call ExitSub()
+
+        End If
 
         ' Retrieve values
 
@@ -252,6 +331,13 @@ Module PS5000ABlockVBCon
         overflow = 0
 
         status = ps5000aGetValues(handle, startIndex, totalSamples, downSampleRatio, PS5000AImports.RatioMode.PS5000A_RATIO_MODE_NONE, segmentIndex, overflow)
+
+        If status <> PicoStatus.PICO_OK Then
+
+            Console.WriteLine("Error:- ps5000aGetValues returned status code {0} (0x{1})", status, status.ToString("X"))
+            Call ExitSub()
+
+        End If
 
         Console.WriteLine("Retrieved {0} samples.", totalSamples, vbNewLine)
 
@@ -300,17 +386,34 @@ Module PS5000ABlockVBCon
 
         Console.WriteLine("Exiting application..." & vbNewLine)
 
-        Sleep(5000)
+        Thread.Sleep(5000)
 
     End Sub
 
     ' Block callback function
 
     Public Sub BlockCallback(handle As Short, status As UInteger, pVoid As IntPtr)
-        ' flag to say done reading data
+
+        ' Flag to say done reading data
         If status <> PicoStatus.PICO_CANCELLED Then
+
             deviceReady = True
+
         End If
+
+    End Sub
+
+    Sub ExitSub()
+
+        ' Close the connection to the device
+        Call ps5000aCloseUnit(handle)
+
+        Console.WriteLine(vbNewLine)
+
+        Console.WriteLine("Exiting application..." & vbNewLine)
+
+        Thread.Sleep(5000)
+
     End Sub
 
 End Module
