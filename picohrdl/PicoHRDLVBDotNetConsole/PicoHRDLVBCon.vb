@@ -12,7 +12,6 @@
 '========================================================================================
 
 Imports System.Threading
-Imports System.Math
 
 Module PicoHRDLVBCon
 
@@ -22,6 +21,8 @@ Module PicoHRDLVBCon
         Dim picologHRDLHandle As Short
         Dim info As String
 
+        Dim hasDigitalIO As Boolean = False
+        Dim digitalInputEnabled As Boolean = False
         Dim keyPress As Boolean = False
 
         Dim ready As Integer = 0
@@ -87,13 +88,55 @@ Module PicoHRDLVBCon
 
             ' Set channel one to:
             '  enabled
-            '  voltage range 2500mV
+            '  voltage range 2500 mV
             '  single ended
 
-            Call HRDLSetAnalogInChannel(picologHRDLHandle, HRDLInputs.HRDL_ANALOG_IN_CHANNEL_1, 1, HRDLRange.HRDL_2500_MV, 1)
+            status = HRDLSetAnalogInChannel(picologHRDLHandle, HRDLInputs.HRDL_ANALOG_IN_CHANNEL_1, 1, HRDLRange.HRDL_2500_MV, 1)
+
+            ' Find number of enabled analog channels
+
+            Dim numberOfEnabledChannels As Short = 0
+
+            status = HRDLGetNumberOfEnabledChannels(picologHRDLHandle, numberOfEnabledChannels)
+
+
+            ' Set Digital Input 1 (ADC-24 only)
+
+            Dim setDigitalIOStatus As Short = 0
+            Dim directionOut As Short = CShort(HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_2 + HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_3 + HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_4) ' Set channel 1 to Input, others to output
+            'Dim directionOut As Short = CShort(HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_1 + HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_2 + HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_3 + HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_4)
+            Dim digitalOutPinState As Short = 0 ' Output state set to low
+            Dim enabledDigitalInput As Short = 0
+
+            ' If digital I/O are not all set to outputs then at least one must be an input
+            If directionOut < 15 Then
+
+                enabledDigitalInput = 1
+
+            End If
+            'Dim enabledDigitalInput As Short = 0
+
+            setDigitalIOStatus = HRDLSetDigitalIOChannel(picologHRDLHandle, directionOut, digitalOutPinState, enabledDigitalInput)
+
+            If setDigitalIOStatus = 1 Then
+
+                hasDigitalIO = True
+
+                If enabledDigitalInput > 0 Then
+
+                    digitalInputEnabled = True
+                    numberOfEnabledChannels = numberOfEnabledChannels + 1
+
+                End If
+
+            Else
+
+                Console.WriteLine("Digital I/O not supported on this device.")
+
+            End If
 
             ' Set interval between conversion starts to 121 ms
-            Call HRDLSetInterval(picologHRDLHandle, 121, HRDLConversionTime.HRDL_60MS)
+            status = HRDLSetInterval(picologHRDLHandle, 121, HRDLConversionTime.HRDL_60MS)
 
             ' Start the data collection
 
@@ -101,7 +144,7 @@ Module PicoHRDLVBCon
 
             Console.WriteLine("Starting data collection..." & vbNewLine)
 
-            Call HRDLRun(picologHRDLHandle, numberOfSamples, BlockMethod.HRDL_BM_BLOCK)
+            status = HRDLRun(picologHRDLHandle, numberOfSamples, BlockMethod.HRDL_BM_BLOCK)
 
             Console.WriteLine("Waiting for data (press any key to cancel)..." & vbNewLine)
 
@@ -112,11 +155,14 @@ Module PicoHRDLVBCon
 
             Loop
 
-            If ready Then
+            If ready = 1 Then
 
 
                 Dim times(numberOfSamples - 1) As Integer
                 Dim values(numberOfSamples - 1) As Integer
+
+                Dim pinnedValues As PinnedArray.PinnedArray(Of Integer)() = New PinnedArray.PinnedArray(Of Integer)(0) {}
+                pinnedValues(0) = New PinnedArray.PinnedArray(Of Integer)(values)
 
                 Dim numberOfSamplesCollected As Integer = 0
 
@@ -129,14 +175,37 @@ Module PicoHRDLVBCon
                     ' Output data to console window
 
                     Console.WriteLine("Collected {0} samples" & vbNewLine, numberOfSamplesCollected)
+                    Console.WriteLine("Time shown in each row corresponds to first value in each set." & vbNewLine)
 
-                    Console.WriteLine("Times (ms)" & vbTab & "Ch 1")
-                    Console.WriteLine("----------" & vbTab & "----")
+                    If hasDigitalIO = True And digitalInputEnabled = True Then
+
+                        Console.WriteLine("Times (ms)" & vbTab & "Digital" & vbTab & "Ch 1")
+                        Console.WriteLine("----------" & vbTab & "-------" & vbTab & "----")
+
+                    Else
+
+                        Console.WriteLine("Times (ms)" & vbTab & "Ch 1")
+                        Console.WriteLine("----------" & vbTab & "----")
+
+                    End If
+
+                    Dim timeCount As UInteger = 0
+
+                    ' Output values to console, time shown in each row will correspond to the
+                    ' first value in that set
+
+                    For i = 0 To (numberOfSamplesCollected / numberOfEnabledChannels) - 1
+
+                        Console.Write("{0}" & vbTab & vbTab, times(i * numberOfEnabledChannels))
+
+                        If digitalInputEnabled = True Then
+
+                            ' Show integer value for now
 
 
-                    For i = 0 To numberOfSamplesCollected - 1
+                        End If
 
-                        Console.WriteLine("{0}" & vbTab & vbTab & "{1}", times(i), adc2mV(picologHRDLHandle, values(i), HRDLInputs.HRDL_ANALOG_IN_CHANNEL_1, HRDLRange.HRDL_2500_MV))
+                        ' & "{1}", times(i), adc2mV(picologHRDLHandle, values(i), HRDLInputs.HRDL_ANALOG_IN_CHANNEL_1, HRDLRange.HRDL_2500_MV))
 
                     Next i
 
@@ -148,6 +217,7 @@ Module PicoHRDLVBCon
 
             End If
 
+            Call HRDLStop(picologHRDLHandle)
 
             Console.WriteLine()
             Console.WriteLine("Press any key to exit.")
