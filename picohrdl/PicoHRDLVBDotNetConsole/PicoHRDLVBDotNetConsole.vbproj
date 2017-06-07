@@ -13,6 +13,7 @@
     <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -94,6 +95,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\shared\PinnedArray.vb">
+      <Link>PinnedArray.vb</Link>
+    </Compile>
     <Compile Include="..\PicoHRDLImports.vb">
       <Link>PicoHRDLImports.vb</Link>
     </Compile>
