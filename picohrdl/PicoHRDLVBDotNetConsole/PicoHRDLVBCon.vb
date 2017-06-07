@@ -148,6 +148,7 @@ Module PicoHRDLVBCon
 
             End If
 
+            Call HRDLStop(picologHRDLHandle)
 
             Console.WriteLine()
             Console.WriteLine("Press any key to exit.")
