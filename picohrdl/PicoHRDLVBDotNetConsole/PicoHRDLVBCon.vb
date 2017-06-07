@@ -104,7 +104,6 @@ Module PicoHRDLVBCon
 
             Dim setDigitalIOStatus As Short = 0
             Dim directionOut As Short = CShort(HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_2 + HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_3 + HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_4) ' Set channel 1 to Input, others to output
-            'Dim directionOut As Short = CShort(HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_1 + HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_2 + HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_3 + HRDLDigitalIOChannel.HRDL_DIGITAL_IO_CHANNEL_4)
             Dim digitalOutPinState As Short = 0 ' Output state set to low
             Dim enabledDigitalInput As Short = 0
 
@@ -114,7 +113,6 @@ Module PicoHRDLVBCon
                 enabledDigitalInput = 1
 
             End If
-            'Dim enabledDigitalInput As Short = 0
 
             setDigitalIOStatus = HRDLSetDigitalIOChannel(picologHRDLHandle, directionOut, digitalOutPinState, enabledDigitalInput)
 
@@ -164,11 +162,12 @@ Module PicoHRDLVBCon
                 Dim pinnedValues As PinnedArray.PinnedArray(Of Integer)() = New PinnedArray.PinnedArray(Of Integer)(0) {}
                 pinnedValues(0) = New PinnedArray.PinnedArray(Of Integer)(values)
 
+                Dim overflow As Short = 0
                 Dim numberOfSamplesCollected As Integer = 0
 
                 ' Get a block of 100 readings...
                 ' We can call this routine repeatedly to get more blocks with the same settings
-                numberOfSamplesCollected = HRDLGetTimesAndValues(picologHRDLHandle, times(0), values(0), 0, numberOfSamples)
+                numberOfSamplesCollected = HRDLGetTimesAndValues(picologHRDLHandle, times(0), values(0), overflow, numberOfSamples)
 
                 If (numberOfSamplesCollected > 0) Then
 
@@ -190,22 +189,32 @@ Module PicoHRDLVBCon
                     End If
 
                     Dim timeCount As UInteger = 0
+                    Dim channel As UInteger = 0
 
                     ' Output values to console, time shown in each row will correspond to the
                     ' first value in that set
 
-                    For i = 0 To (numberOfSamplesCollected / numberOfEnabledChannels) - 1
-
-                        Console.Write("{0}" & vbTab & vbTab, times(i * numberOfEnabledChannels))
+                    For i = 0 To ((numberOfSamplesCollected / numberOfEnabledChannels) - 1)
 
                         If digitalInputEnabled = True Then
 
-                            ' Show integer value for now
+                            Console.Write("{0}" & vbTab & vbTab, times(i * timeCount))
 
+                            ' Show integer value for now
+                            Console.Write("{0}" & vbTab & vbTab, values(i * timeCount))
+
+                            Console.Write("{0}", adc2mV(picologHRDLHandle, values((i * timeCount) + 1), HRDLInputs.HRDL_ANALOG_IN_CHANNEL_1, HRDLRange.HRDL_2500_MV))
+
+                            timeCount = timeCount + 1
+
+                        Else
+
+                            Console.Write("{0}" & vbTab & vbTab, times(i))
+                            Console.Write("{0}", adc2mV(picologHRDLHandle, values(i), HRDLInputs.HRDL_ANALOG_IN_CHANNEL_1, HRDLRange.HRDL_2500_MV))
 
                         End If
 
-                        ' & "{1}", times(i), adc2mV(picologHRDLHandle, values(i), HRDLInputs.HRDL_ANALOG_IN_CHANNEL_1, HRDLRange.HRDL_2500_MV))
+                        Console.WriteLine()
 
                     Next i
 

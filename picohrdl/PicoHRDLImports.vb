@@ -8,7 +8,7 @@
 '   Copyright (C) 2017 Pico Technology Ltd. See LICENSE file for terms.
 '===================================================================================================
 
-Module USBTC08Imports
+Module PicoHRDLImports
 
     ' Constants
     ' =========
