@@ -17,6 +17,10 @@ Module PicoHRDLImports
     Public Const HRDL_MAX_UNITS As UInteger = 20
     Public Const INVALID_HRDL_VALUE = &HF0000000
 
+    ' Constants to define model
+    Public Const HRDL_ADC_20 = 20
+    Public Const HRDL_ADC_24 = 24
+
     ' Enumerations
     ' ============
 
