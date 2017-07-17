@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("PS6000VBDotNetConsole")>
-<Assembly: AssemblyDescription("PicoScope 6000 Series (ps6000) VB .NET Basic Console Example")>
+<Assembly: AssemblyTitle("PS6000Block")>
+<Assembly: AssemblyDescription("PicoScope 6000 Series (ps6000) VB .NET Block Capture Example")>
 <Assembly: AssemblyCompany("Pico Technology Ltd.")>
 <Assembly: AssemblyProduct("PicoScope 6000 Series PC Oscilloscopes")>
-<Assembly: AssemblyCopyright("Copyright ©  2014 - 2017 Pico Technology Ltd. All rights reserved.")>
+<Assembly: AssemblyCopyright("Copyright ©  2014-2017 Pico Technology Ltd. All rights reserved.")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
