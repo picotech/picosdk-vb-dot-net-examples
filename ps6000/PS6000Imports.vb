@@ -5,7 +5,7 @@
 '	Description: 
 '	This file defines enumerations, functions and structures from the ps6000Api.h C header file.
 '
-'   Copyright (C) 2017 Pico Technology Ltd. See LICENSE file for terms.
+'   Copyright © 2017 Pico Technology Ltd. See LICENSE file for terms.
 '
 '===================================================================================================
 
@@ -149,6 +149,34 @@ Module PS6000Imports
         PS6000_MAX_WAVE_TYPES
     End Enum
 
+    Enum SigGenTrigSource
+        PS6000_SIGGEN_NONE
+        PS6000_SIGGEN_SCOPE_TRIG
+        PS6000_SIGGEN_AUX_IN
+        PS6000_SIGGEN_EXT_IN
+        PS6000_SIGGEN_SOFT_TRIG
+    End Enum
+
+    Enum SigGenTrigType
+        PS6000_SIGGEN_RISING
+        PS6000_SIGGEN_FALLING
+        PS6000_SIGGEN_GATE_HIGH
+        PS6000_SIGGEN_GATE_LOW
+    End Enum
+
+    Enum SweepType
+        PS6000_UP
+        PS6000_DOWN
+        PS6000_UPDOWN
+        PS6000_DOWNUP
+        PS6000_MAX_SWEEP_TYPES
+    End Enum
+
+    Enum ExtraOperations
+        PS6000_ES_OFF
+        PS6000_WHITENOISE
+        PS6000_PRBS 'Pseudo-Random Bit Stream 
+    End Enum
 
     ' Structures
     ' ==========
@@ -222,6 +250,12 @@ Module PS6000Imports
     Declare Function ps6000SetDataBuffer Lib "ps6000.dll" (ByVal handle As Short, ByVal channel As Channel, ByRef buffer As Short, ByVal length As UInteger, ByVal downSampleRatioMode As RatioMode) As UInteger
     Declare Function ps6000Stop Lib "ps6000.dll" (ByVal handle As Short) As UInteger
 
+    ' Signal Generator Functions
+    ' --------------------------
+
+    Declare Function ps6000SetSigGenBuiltInV2 Lib "ps6000.dll" (ByVal handle As Short, ByVal offsetVoltage As Integer, ByVal peakToPeak As UInteger, ByVal waveType As WaveType, ByVal startFrequency As Double,
+                                                                  ByVal stopFrequency As Double, ByVal increment As Double, ByVal dwellTime As Double, ByVal sweepType As SweepType, ByVal operation As ExtraOperations,
+                                                                  ByVal shots As UInteger, ByVal sweeps As UInteger, ByVal triggerType As SigGenTrigType, ByVal triggerSource As SigGenTrigSource, ByVal extInThreshold As Short) As UInteger
 
     ' Delegate declarations
     ' =====================
@@ -230,10 +264,5 @@ Module PS6000Imports
     ' ----------
     Public Delegate Sub ps6000BlockReady(handle As Short, status As UInteger, pVoid As IntPtr)
 
-
-    ' Other Functions
-    ' ===============
-
-    Declare Sub Sleep Lib "kernel32.dll" (ByVal time As Short)
 
 End Module
