@@ -13,6 +13,8 @@
 '========================================================================================
 
 Imports System.IO
+Imports System.Threading
+
 Imports PS4000VBCon.PS4000Imports
 
 Module PS4000VBCon
@@ -429,7 +431,7 @@ Module PS4000VBCon
         ' Check the state of the deviceReady variable to verify that valid data is available to collect
         While ((deviceReady = False) And (keypress = False))
 
-            System.Threading.Thread.Sleep(10)
+            Thread.Sleep(10)
 
             If Console.KeyAvailable Then                ' Check if the user has hit a key to indicate they want to stop waiting for data collection
                 keypress = True
