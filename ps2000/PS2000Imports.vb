@@ -250,7 +250,5 @@ Module PS2000Imports
     Declare Sub clearFastStreamingParameters Lib "ps2000Wrap.dll" (ByVal handle As Short)
 
     Declare Function setCollectionInfo Lib "ps2000Wrap.dll" (ByVal handle As Short, ByVal collectionSize As UInteger, ByVal overviewBufferSize As UInteger) As Short
-    
-    Declare Sub Sleep Lib "kernel32.dll" (ByVal time As Integer)
 
 End Module

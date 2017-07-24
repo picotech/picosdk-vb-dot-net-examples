@@ -14,6 +14,7 @@
 '===================================================================================================
 
 Imports System.IO
+Imports System.Threading
 
 Module PS2000Block
 
@@ -144,12 +145,12 @@ Module PS2000Block
 
         Dim offsetVoltage As Integer = 0
         Dim peakToPeak As UInteger = 2000000 ' +/- 1 Volt
-        Dim waveType As WaveType = waveType.PS2000_SINE
+        Dim waveType As WaveType = WaveType.PS2000_SINE
         Dim startFrequency As Single = 1000.0 ' Hertz
         Dim stopFrequency As Single = 1000.0 ' Hertz
         Dim increment As Single = 0.0
         Dim dwellTime As Single = 0.0
-        Dim sweepType As SweepType = sweepType.PS2000_UP
+        Dim sweepType As SweepType = SweepType.PS2000_UP
         Dim numSweeps As UInteger = 0
 
         Console.WriteLine("Connect the AWG output to Channel A and press <Enter> to continue.")
@@ -189,7 +190,7 @@ Module PS2000Block
         While isReady = 0 AndAlso Console.KeyAvailable = False
 
             isReady = ps2000_ready(ps2000Handle)
-            Sleep(5)
+            Thread.Sleep(5)
 
         End While
 
@@ -285,7 +286,7 @@ Module PS2000Block
 
         Console.WriteLine("Exiting application..." & vbNewLine)
 
-        Sleep(5000)
+        Thread.Sleep(5000)
 
     End Sub
 
@@ -301,7 +302,7 @@ Module PS2000Block
         Call ps2000_close_unit(handle)
         Console.WriteLine("Exiting application...")
 
-        Sleep(5000)
+        Thread.Sleep(5000)
 
     End Sub
 

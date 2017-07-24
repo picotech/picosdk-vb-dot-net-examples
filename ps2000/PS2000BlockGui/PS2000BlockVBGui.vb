@@ -13,7 +13,7 @@
 '
 '===================================================================================================
 
-Imports System.IO
+Imports System.Threading
 
 Public Class PS2000BlockVBGui
 
@@ -247,7 +247,7 @@ Public Class PS2000BlockVBGui
         While isReady = 0
 
             isReady = ps2000_ready(ps2000Handle)
-            Sleep(5)
+            Thread.Sleep(5)
 
         End While
 
