@@ -9,7 +9,7 @@
 '   It shows how to connect to a device, display device information, setup the signal generator and 
 '   collect data in block mode.
 '
-'   Copyright (C) 2017 Pico Technology Ltd. See LICENSE file for terms.
+'   Copyright © 2017 Pico Technology Ltd. See LICENSE file for terms.
 '
 '===================================================================================================
 
