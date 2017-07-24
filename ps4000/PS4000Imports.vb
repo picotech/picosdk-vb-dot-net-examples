@@ -5,7 +5,7 @@
 '	Description: 
 '	This file defines enumerations, functions and structures from the ps4000.h C header file.
 '
-'   Copyright (C) 2016 - 2017 Pico Technology Ltd. See LICENSE file for terms.
+'   Copyright © 2016-2017 Pico Technology Ltd. See LICENSE file for terms.
 '
 '===================================================================================================
 Imports System.Runtime.InteropServices

@@ -8,7 +8,7 @@
 '   It shows the use of many API call functions for block data collection and triggering 
 '   from more than 1 source
 '
-'   Copyright (C) 2011 - 2017 Pico Technology Ltd. See LICENSE file for terms.
+'   Copyright © 2011-2017 Pico Technology Ltd. See LICENSE file for terms.
 '
 '========================================================================================
 
