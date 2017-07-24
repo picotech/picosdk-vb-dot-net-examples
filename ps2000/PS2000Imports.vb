@@ -6,7 +6,7 @@
 '	    This file defines enumerations, functions and structures from the ps2000.h and ps2000Wrap.h 
 '       C header files.
 '
-'   Copyright (C) 2017 Pico Technology Ltd. See LICENSE file for terms.
+'   Copyright © 2017 Pico Technology Ltd. See LICENSE file for terms.
 '
 '===================================================================================================
 Module PS2000Imports
