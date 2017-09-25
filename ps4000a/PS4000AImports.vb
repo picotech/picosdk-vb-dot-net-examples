@@ -333,12 +333,12 @@ Module PS4000AImports
     Declare Function ps4000aSetSigGenArbitrary Lib "ps4000a.dll" (ByVal handle As Short, ByVal offsetVoltage As Integer, ByVal pkToPk As UInteger, ByVal startDeltaPhase As UInteger,
                                                                   ByVal stopDeltaPhase As UInteger, ByVal deltaPhaseIncrement As UInteger, ByVal dwellCount As UInteger, ByRef arbitraryWaveform As Short,
                                                                   ByVal arbitaryWaveformSize As Integer, ByVal sweepType As SweepType, ByVal operation As ExtraOperations, ByVal indexMode As IndexMode,
-                                                                  ByVal shots As UInteger, ByVal sweeps As UInteger, ByRef triggerType As SigGenTrigType, ByVal triggerSource As SigGenTrigSource,
+                                                                  ByVal shots As UInteger, ByVal sweeps As UInteger, ByVal triggerType As SigGenTrigType, ByVal triggerSource As SigGenTrigSource,
                                                                   ByVal extInThreshold As Short) As UInteger
 
     Declare Function ps4000aSetSigGenBuiltIn Lib "ps4000a.dll" (ByVal handle As Short, ByVal offsetVoltage As Integer, ByVal pkToPk As UInteger, ByVal waveType As WaveType, ByVal startFreq As Double,
                                                                 ByVal stopFreq As Double, ByVal increment As Double, ByVal dwellTime As Double, ByVal sweepType As SweepType,
-                                                                ByVal operation As ExtraOperations, ByVal shot As UInteger, ByVal sweeps As UInteger, ByRef triggerType As SigGenTrigType,
+                                                                ByVal operation As ExtraOperations, ByVal shots As UInteger, ByVal sweeps As UInteger, ByVal triggerType As SigGenTrigType,
                                                                 ByVal triggerSource As SigGenTrigSource, ByVal extInThreshold As Short) As UInteger
 
     Declare Function ps4000aSigGenArbitraryMinMaxValues Lib "ps4000a.dll" (ByVal handle As Short, ByRef minArbWaveformValue As Short, ByRef maxArbWaveformValue As Short,
