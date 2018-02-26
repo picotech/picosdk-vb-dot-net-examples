@@ -19,6 +19,19 @@ Module PS6000Imports
     Public Const AWG_BUFFER_SIZE_16KS = 16384      ' 6000A/B AWG Buffer Size
     Public Const AWG_BUFFER_SIZE_64KS = 65536      ' 6000C/D AWG Buffer Size
 
+    Public Const MIN_DWELL_COUNT = 3
+    Public Const MAX_SWEEP_SHOTS = ((1 << 30) - 1)
+
+    Public Const PS6000_PRBS_MAX_FREQUENCY = 20000000.0
+    Public Const PS6000_SINE_MAX_FREQUENCY = 20000000.0
+    Public Const PS6000_SQUARE_MAX_FREQUENCY = 20000000.0
+    Public Const PS6000_TRIANGLE_MAX_FREQUENCY = 20000000.0
+    Public Const PS6000_SINC_MAX_FREQUENCY = 20000000.0
+    Public Const PS6000_RAMP_MAX_FREQUENCY = 20000000.0
+    Public Const PS6000_HALF_SINE_MAX_FREQUENCY = 20000000.0
+    Public Const PS6000_GAUSSIAN_MAX_FREQUENCY = 20000000.0
+    Public Const PS6000_MIN_FREQUENCY = 0.03
+
 
     ' Enumerations
     ' ============
@@ -178,6 +191,12 @@ Module PS6000Imports
         PS6000_PRBS 'Pseudo-Random Bit Stream 
     End Enum
 
+    Enum IndexMode
+        PS6000_SINGLE
+        PS6000_DUAL
+        PS6000_QUAD
+    End Enum
+
     ' Structures
     ' ==========
 
@@ -253,9 +272,23 @@ Module PS6000Imports
     ' Signal Generator Functions
     ' --------------------------
 
+    Declare Function ps6000SetSigGenArbitrary Lib "ps6000.dll" (ByVal handle As Short, ByVal offsetVoltage As Integer, ByVal pkToPk As UInteger, ByVal startDeltaPhase As UInteger,
+                                                                  ByVal stopDeltaPhase As UInteger, ByVal deltaPhaseIncrement As UInteger, ByVal dwellCount As UInteger, ByRef arbitraryWaveform As Short,
+                                                                  ByVal arbitaryWaveformSize As Integer, ByVal sweepType As SweepType, ByVal operation As ExtraOperations, ByVal indexMode As IndexMode,
+                                                                  ByVal shots As UInteger, ByVal sweeps As UInteger, ByVal triggerType As SigGenTrigType, ByVal triggerSource As SigGenTrigSource,
+                                                                  ByVal extInThreshold As Short) As UInteger
+
     Declare Function ps6000SetSigGenBuiltInV2 Lib "ps6000.dll" (ByVal handle As Short, ByVal offsetVoltage As Integer, ByVal peakToPeak As UInteger, ByVal waveType As WaveType, ByVal startFrequency As Double,
                                                                   ByVal stopFrequency As Double, ByVal increment As Double, ByVal dwellTime As Double, ByVal sweepType As SweepType, ByVal operation As ExtraOperations,
                                                                   ByVal shots As UInteger, ByVal sweeps As UInteger, ByVal triggerType As SigGenTrigType, ByVal triggerSource As SigGenTrigSource, ByVal extInThreshold As Short) As UInteger
+
+    Declare Function ps6000SigGenArbitraryMinMaxValues Lib "ps6000.dll" (ByVal handle As Short, ByRef minArbitraryWaveformValue As Short, ByRef maxArbitraryWaveformValue As Short,
+                                                                    ByRef minArbitraryWaveformSize As UInteger, ByRef maxArbitraryWaveformSize As UInteger) As UInteger
+
+    Declare Function ps6000SigGenFrequencyToPhase Lib "ps6000.dll" (ByVal handle As Short, ByVal frequency As Double, ByVal indexMode As IndexMode,
+                                                                    ByVal bufferLength As UInteger, ByRef phase As UInteger) As UInteger
+
+    Declare Function ps6000SigGenSoftwareControl Lib "ps6000.dll" (ByVal handle As Short, ByVal state As Short) As UInteger
 
     ' Delegate declarations
     ' =====================
