@@ -6,13 +6,26 @@
 '	
 '		This file is based on the C header file PicoConnectProbes.h and 
 '		defines the enumerations and functions relating to 
-'		PicoConnect (TM) Probes.
+'		PicoConnect (TM) probes, along with the input ranges for current clamps and a 
+'       high voltage probe.
 '
 '   Copyright (C) 2017 Pico Technology Ltd. See LICENSE file for terms.
 '
 '========================================================================================
 
 Module PicoConnectProbes
+
+    ' Constants
+    ' =========
+
+    ' Input ranges (amps) when using 200 A - 2 kA current clamp
+    Public inputRanges2kA() As UShort = New UShort(10) {1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000}
+
+    ' Input ranges (milliamperes) when using 40 A current clamp
+    Public inputRanges40A() As UShort = New UShort(8) {100, 200, 500, 1000, 2000, 5000, 10000, 20000, 40000}
+
+    ' Input ranges (volts) when using CAT III High Voltage probe
+    Public inputRanges1kV() As Single = New Single(8) {2.5, 5, 12.5, 25, 50, 125, 250, 500, 1000}
 
     ' Enumerations
     ' ============
