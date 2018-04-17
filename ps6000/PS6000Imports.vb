@@ -5,7 +5,7 @@
 '	Description: 
 '	This file defines enumerations, functions and structures from the ps6000Api.h C header file.
 '
-'   Copyright © 2017 Pico Technology Ltd. See LICENSE file for terms.
+'   Copyright © 2017-2018 Pico Technology Ltd. See LICENSE file for terms.
 '
 '===================================================================================================
 
@@ -67,6 +67,8 @@ Module PS6000Imports
         PS6000_CHANNEL_C
         PS6000_CHANNEL_D
         PS6000_EXTERNAL
+        PS6000_MAX_CHANNELS = PS6000_EXTERNAL
+        PS6000_TRIGGER_AUX
     End Enum
 
     Enum Coupling
