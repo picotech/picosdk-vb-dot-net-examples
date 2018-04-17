@@ -202,7 +202,7 @@ Module PS6000Imports
     ' Structures
     ' ==========
 
-    Structure Channel_SETTINGS
+    Structure CHANNEL_SETTINGS
         Dim dcCoupled As Coupling
         Dim range As VoltageRange
         Dim enabled As Boolean
@@ -215,7 +215,7 @@ Module PS6000Imports
         Dim channelCount As Short
         Dim firstRange As VoltageRange
         Dim lastRange As VoltageRange
-        Dim channelSettings() As Channel_SETTINGS
+        Dim channelSettings() As CHANNEL_SETTINGS
         Dim sigGenType As Boolean
         Dim sigGenBufferSize As UInteger
     End Structure
