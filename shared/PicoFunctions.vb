@@ -4,7 +4,7 @@
 '	Description: 
 '	This file defines functions that can be used across Pico Technology VB .NET examples.
 '
-'   Copyright (C) 2016 - 2017 Pico Technology Ltd. See LICENSE file for terms.
+'   Copyright (C) 2016-2018 Pico Technology Ltd. See LICENSE file for terms.
 '
 '========================================================================================
 
@@ -26,7 +26,7 @@ Module PicoFunctions
     ' Returns    - value converted into mV
     ' *******************************************************************************************************************************************************************
 
-    Function adcToMv(ByVal raw As Integer, ByVal range As Integer, ByVal maxADCValue As Short)
+    Function adcToMv(ByVal raw As Integer, ByVal range As Integer, ByVal maxADCValue As Short) As Single
 
         Dim mVVal As Single        ' Use this variable to force data to be returned as an integer
 
