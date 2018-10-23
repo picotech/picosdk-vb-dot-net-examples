@@ -4,11 +4,11 @@
 '
 '	Description: 
 '	This file demonstrates how to use VB .NET on the PicoScope 5000 Series Flexible Resolution 
-'   Oscilloscopes using the ps5000a driver.
+'   Oscilloscopes using the ps5000a driver API functions.
 '   It shows how to connect to a device, display device information and collect data in 
 '   rapid block mode.
 '
-'   Copyright © 2016-2017 Pico Technology Ltd. See LICENSE file for terms.
+'   Copyright © 2016-2018 Pico Technology Ltd. See LICENSE file for terms.
 '
 '===================================================================================================
 
@@ -112,7 +112,7 @@ Module PS5000ARapidBlockVBCon
 
             Console.WriteLine("Device DC Powered" & vbNewLine)
 
-        ElseIf status = PicoStatus.PICO_POWER_SUPPLY_NOT_CONNECTED Then
+        ElseIf status = PicoStatus.PICO_POWER_SUPPLY_NOT_CONNECTED Or status = PicoStatus.PICO_USB3_0_DEVICE_NON_USB3_0_PORT Then
 
             ' Change power status if USB powered
             status = ps5000aChangePowerSource(handle, status)
@@ -398,9 +398,9 @@ Module PS5000ARapidBlockVBCon
 
         End If
 
-        Console.WriteLine("Please connect the signal generator output to Channel A and press <Enter> to start data collection.")
+        Console.WriteLine("Please connect the signal generator output to Channel A and press any key to start data collection.")
 
-        Console.ReadKey()
+        Console.ReadKey(vbTrue)
         Console.WriteLine()
         Console.WriteLine("Starting data capture...")
 
