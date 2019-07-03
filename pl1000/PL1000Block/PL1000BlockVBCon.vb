@@ -33,10 +33,21 @@ Module PL1000BlockVBCon
         End If
 
         Dim requiredSize As Integer
+        Dim us_for_block As Double
+        Dim ideal_no_of_samples As Double
+        Dim channels As PL1000Block.PL1000Inputs
+        Dim no_of_channels As Integer
+        Dim method As PL1000Block.BlockMethod
+        Dim ready As Integer
+        Dim noOfValues As Double
+        Dim overflow As Integer
+        Dim triggerIndex As Double
         Dim strBuilder As New StringBuilder
+        Dim values As UShort() = New UShort(9) {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 
         strBuilder.Capacity = 40
         strBuilder.Length = 40
+
 
         Dim str = strBuilder.ToString()
 
@@ -54,6 +65,32 @@ Module PL1000BlockVBCon
 
         Console.WriteLine()
 
+        ' Set sampling speed
+        us_for_block = 1000
+        ideal_no_of_samples = 10
+        channels = (PL1000Block.PL1000Inputs.PL1000_CHANNEL_1)
+        no_of_channels = 1
+        status = pl1000SetInterval(handle, us_for_block, ideal_no_of_samples, channels, no_of_channels)
+
+        ' Run block
+        method = PL1000Block.BlockMethod.BM_SINGLE
+
+        status = pl1000Run(handle, ideal_no_of_samples, method)
+
+        ' Wait for block to be collected
+        ready = 0
+        While ready = 0
+            status = pl1000Ready(handle, ready)
+        End While
+
+        ' Get values
+        noOfValues = ideal_no_of_samples
+        overflow = 0
+        triggerIndex = 1
+        status = pl1000GetValues(handle, values(0), noOfValues, overflow, triggerIndex)
+
+        Console.WriteLine("First ADC count data value.")
+        Console.WriteLine(values(0))
 
         ' Stop the device
         status = pl1000Stop(handle)
