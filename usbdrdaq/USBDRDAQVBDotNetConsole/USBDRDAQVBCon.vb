@@ -10,6 +10,7 @@
 '
 '===================================================================================================
 Imports System.Text
+Imports System.Threading
 
 Module USBDRDAQVBCon
 
@@ -85,9 +86,8 @@ Module USBDRDAQVBCon
     status = UsbDrDaqSetInterval(handle, 1000000, numSamplesPerChannel, channels(0), channels.Length)
 
     If status <> PICO_OK Then
-      MsgBox("Settings error.", vbOKOnly, "Error Message")
-      Call UsbDrDaqCloseUnit(handle)
-      Exit Sub
+      Console.WriteLine("Error:- UsbDrDaqSetInterval returned status code {0} (0x{1})", status, status.ToString("X"))
+      Call ExitSub()
     End If
 
     ' Setup the signal generator to output a ramp up waveform with a frequency of 5 Hz
@@ -100,9 +100,8 @@ Module USBDRDAQVBCon
     status = UsbDrDaqSetSigGenBuiltIn(handle, offsetVoltage, peakToPeakVoltage, frequency, UsbDrDaqWave.USB_DRDAQ_RAMP_UP)
 
     If status <> PICO_OK Then
-      MsgBox("Signal generator error.", vbOKOnly, "Error Message")
-      Call UsbDrDaqCloseUnit(handle)
-      Exit Sub
+      Console.WriteLine("Error:- UsbDrDaqSetSigGenBuiltIn returned status code {0} (0x{1})", status, status.ToString("X"))
+      Call ExitSub()
     End If
 
     Console.WriteLine("Please connect the Sig Gen output to the Scope input and press <Enter> to start data collection.")
@@ -122,9 +121,8 @@ Module USBDRDAQVBCon
     status = UsbDrDaqRun(handle, numSamplesPerChannel, BlockMethod.BM_SINGLE)
 
     If status <> PICO_OK Then
-      MsgBox("Run error.", vbOKOnly, "Error Message")
-      Call UsbDrDaqCloseUnit(handle)
-      Exit Sub
+      Console.WriteLine("Error:- UsbDrDaqRun returned status code {0} (0x{1})", status, status.ToString("X"))
+      Call ExitSub()
     End If
 
     Do While ready = 0
@@ -169,6 +167,7 @@ Module USBDRDAQVBCon
     ' Reset ready flag if we need to collect another block of data
     ready = 0
 
+    Console.WriteLine()
     Console.WriteLine("Data capture complete.")
 
     ' Stop the device
@@ -177,10 +176,20 @@ Module USBDRDAQVBCon
     ' Stop the signal generator
     status = UsbDrDaqStopSigGen(handle)
 
-    ' Close the device
+    Call ExitSub()
+
+  End Sub
+
+  Sub ExitSub()
+
+    ' Close the connection to the device
     Call UsbDrDaqCloseUnit(handle)
 
-    Console.WriteLine("Unit Closed.")
+    Console.WriteLine(vbNewLine)
+
+    Console.WriteLine("Exiting application..." & vbNewLine)
+
+    Thread.Sleep(5000)
 
   End Sub
 
