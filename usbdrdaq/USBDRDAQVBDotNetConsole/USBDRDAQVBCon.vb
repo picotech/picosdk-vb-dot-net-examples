@@ -85,10 +85,35 @@ Module USBDRDAQVBCon
     status = UsbDrDaqSetInterval(handle, 1000000, numSamplesPerChannel, channels(0), channels.Length)
 
     If status <> PICO_OK Then
-      MsgBox("Settings error", vbOKOnly, "Error Message")
+      MsgBox("Settings error.", vbOKOnly, "Error Message")
       Call UsbDrDaqCloseUnit(handle)
       Exit Sub
     End If
+
+    ' Setup the signal generator to output a ramp up waveform with a frequency of 5 Hz
+    ' and a peak-to-peak voltage of 1 V.
+
+    Dim offsetVoltage As Integer = 0
+    Dim peakToPeakVoltage As UInteger = 2000000 ' ±1 V
+    Dim frequency As Short = 5
+
+    status = UsbDrDaqSetSigGenBuiltIn(handle, offsetVoltage, peakToPeakVoltage, frequency, UsbDrDaqWave.USB_DRDAQ_RAMP_UP)
+
+    If status <> PICO_OK Then
+      MsgBox("Signal generator error.", vbOKOnly, "Error Message")
+      Call UsbDrDaqCloseUnit(handle)
+      Exit Sub
+    End If
+
+    Console.WriteLine("Please connect the Sig Gen output to the Scope input and press <Enter> to start data collection.")
+
+    While (Console.ReadKey(True).Key <> ConsoleKey.Enter)
+
+
+    End While
+
+    Console.WriteLine()
+    Console.WriteLine("Starting data capture...")
 
     Dim ready As Short
 
@@ -97,7 +122,7 @@ Module USBDRDAQVBCon
     status = UsbDrDaqRun(handle, numSamplesPerChannel, BlockMethod.BM_SINGLE)
 
     If status <> PICO_OK Then
-      MsgBox("Run error", vbOKOnly, "Error Message")
+      MsgBox("Run error.", vbOKOnly, "Error Message")
       Call UsbDrDaqCloseUnit(handle)
       Exit Sub
     End If
@@ -144,8 +169,13 @@ Module USBDRDAQVBCon
     ' Reset ready flag if we need to collect another block of data
     ready = 0
 
+    Console.WriteLine("Data capture complete.")
+
     ' Stop the device
     status = UsbDrDaqStop(handle)
+
+    ' Stop the signal generator
+    status = UsbDrDaqStopSigGen(handle)
 
     ' Close the device
     Call UsbDrDaqCloseUnit(handle)

@@ -92,10 +92,11 @@ Module USBDrDAQImports
   Declare Function UsbDrDaqReady Lib "usbdrdaq.dll" (ByVal handle As Short, ByRef ready As Short) As UInteger
   Declare Function UsbDrDaqStop Lib "usbdrdaq.dll" (ByVal handle As Short) As UInteger
 
-  ' Signal Generator Function
+  ' Signal Generator Functions
   ' --------------------------
 
-  Declare Function UsbDrDaqSetSigGenBuiltIn Lib "usbdrdaq.dll" (ByVal handle As Integer, ByVal offsetVoltage As Integer, ByVal pkToPk As UInteger, ByVal frequency As Integer, ByVal waveType As UsbDrDaqWave) As UInteger
+  Declare Function UsbDrDaqSetSigGenBuiltIn Lib "usbdrdaq.dll" (ByVal handle As Short, ByVal offsetVoltage As Integer, ByVal pkToPk As UInteger, ByVal frequency As Integer, ByVal waveType As UsbDrDaqWave) As UInteger
+  Declare Function UsbDrDaqStopSigGen Lib "usbdrdaq.dll" (ByVal handle As Short) As UInteger
 
   ' Windows Kernel Function
   ' -----------------------
