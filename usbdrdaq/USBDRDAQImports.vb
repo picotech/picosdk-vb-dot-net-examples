@@ -5,7 +5,7 @@
 '	Description: 
 '	This file defines enumerations and functions from the UsbDrDAQApi.h C header file.
 '
-'   Copyright (C) 2016 - 2017 Pico Technology Ltd. See LICENSE file for terms.
+'   Copyright (C) 2016-2019 Pico Technology Ltd. See LICENSE file for terms.
 '
 '===================================================================================================
 
@@ -69,34 +69,34 @@ Module USBDrDAQImports
         BM_WINDOW
         BM_STREAM
     End Enum
-    
 
-    ' Function Declarations
-    ' =====================
 
-    ' Device Connection and Setup Functions
-    ' -------------------------------------
+  ' Function Declarations
+  ' =====================
 
-    Declare Function UsbDrDaqOpenUnit Lib "USBDrDAQ.dll" (ByRef handle As Short) As UInteger
-    Declare Function UsbDrDaqCloseUnit Lib "USBDrDAQ.dll" (ByVal handle As Short) As UInteger
-    Declare Function UsbDrDaqSetInterval Lib "USBDrDAQ.dll" (ByVal handle As Short, ByRef us_for_block As UInteger, ByVal ideal_no_of_samples As UInteger, ByRef channels As UsbDrDaqInputs, ByVal no_of_channels As Short) As UInteger
-    Declare Function UsbDrDaqGetUnitInfo Lib "USBDrDAQ.dll" (ByVal handle As Short, ByVal str As String, ByVal stringLength As Short, ByRef requiredSize As Short, ByVal info As UsbDrDaqInfo) As UInteger
-    Declare Function UsbDrDaqSetDO Lib "USBDrDAQ.dll" (ByVal handle As Short, ByVal IOChannel As UsbDrDaqGPIO, ByVal value As Short) As UInteger
+  ' Device Connection and Setup Functions
+  ' -------------------------------------
 
-    ' Data Collection Functions
-    ' -------------------------
+  Declare Function UsbDrDaqOpenUnit Lib "usbdrdaq.dll" (ByRef handle As Short) As UInteger
+  Declare Function UsbDrDaqCloseUnit Lib "usbdrdaq.dll" (ByVal handle As Short) As UInteger
+  Declare Function UsbDrDaqSetInterval Lib "usbdrdaq.dll" (ByVal handle As Short, ByRef us_for_block As UInteger, ByVal ideal_no_of_samples As UInteger, ByRef channels As UsbDrDaqInputs, ByVal no_of_channels As Short) As UInteger
+  Declare Function UsbDrDaqGetUnitInfo Lib "usbdrdaq.dll" (ByVal handle As Short, ByVal str As String, ByVal stringLength As Short, ByRef requiredSize As Short, ByVal info As UsbDrDaqInfo) As UInteger
+  Declare Function UsbDrDaqSetDO Lib "usbdrdaq.dll" (ByVal handle As Short, ByVal IOChannel As UsbDrDaqGPIO, ByVal value As Short) As UInteger
 
-    Declare Function UsbDrDaqRun Lib "USBDrDAQ.dll" (ByVal handle As Short, ByVal no_of_values As UInteger, ByVal method As BlockMethod) As UInteger
-    Declare Function UsbDrDaqGetValues Lib "USBDrDAQ.dll" (ByVal handle As Short, ByRef values As Short, ByRef noOfValues As UInteger, ByRef overflow As Short, ByRef triggerIndex As UInteger) As UInteger
-    Declare Function UsbDrDaqGetValuesF Lib "USBDrDAQ.dll" (ByVal handle As Short, ByRef values As Single, ByRef noOfValues As UInteger, ByRef overflow As Short, ByRef triggerIndex As UInteger) As UInteger
-    Declare Function UsbDrDaqReady Lib "USBDrDAQ.dll" (ByVal handle As Short, ByRef ready As Short) As UInteger
-    Declare Function UsbDrDaqStop Lib "USBDrDAQ.dll" (ByVal handle As Short) As UInteger
+  ' Data Collection Functions
+  ' -------------------------
 
-    ' Signal Generator Function
-    ' --------------------------
+  Declare Function UsbDrDaqRun Lib "usbdrdaq.dll" (ByVal handle As Short, ByVal no_of_values As UInteger, ByVal method As BlockMethod) As UInteger
+  Declare Function UsbDrDaqGetValues Lib "usbdrdaq.dll" (ByVal handle As Short, ByRef values As Short, ByRef noOfValues As UInteger, ByRef overflow As Short, ByRef triggerIndex As UInteger) As UInteger
+  Declare Function UsbDrDaqGetValuesF Lib "usbdrdaq.dll" (ByVal handle As Short, ByRef values As Single, ByRef noOfValues As UInteger, ByRef overflow As Short, ByRef triggerIndex As UInteger) As UInteger
+  Declare Function UsbDrDaqReady Lib "usbdrdaq.dll" (ByVal handle As Short, ByRef ready As Short) As UInteger
+  Declare Function UsbDrDaqStop Lib "usbdrdaq.dll" (ByVal handle As Short) As UInteger
 
-    Declare Function UsbDrDaqSetSigGenBuiltIn Lib "USBDrDAQ.dll" (ByVal handle As Integer, ByVal offsetVoltage As Integer, ByVal pkToPk As UInteger, ByVal frequency As Integer, ByVal waveType As UsbDrDaqWave) As UInteger
+  ' Signal Generator Function
+  ' --------------------------
 
-    Declare Sub Sleep Lib "kernel32.dll" (ByVal time As UInteger)
+  Declare Function UsbDrDaqSetSigGenBuiltIn Lib "usbdrdaq.dll" (ByVal handle As Integer, ByVal offsetVoltage As Integer, ByVal pkToPk As UInteger, ByVal frequency As Integer, ByVal waveType As UsbDrDaqWave) As UInteger
+
+  Declare Sub Sleep Lib "kernel32.dll" (ByVal time As UInteger)
 
 End Module
